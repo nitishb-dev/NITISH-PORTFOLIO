@@ -27,7 +27,7 @@ const Certifications = () => {
       issuer: "Microsoft",
       date: "2024",
       description: "Foundational knowledge of AI and machine learning concepts on Microsoft Azure platform",
-      credentialUrl: "https://example.com/cert1",
+      credentialUrl: "https://drive.google.com/file/d/1DwMgQbbloFaRzWNbmNbEq_iYgpXqJhgs/view?usp=sharing",
       skills: ["Azure AI", "Machine Learning", "AI Services", "Cognitive Services"],
       badgeImage: "https://images.credly.com/size/340x340/images/4136ced8-75d5-4afb-8677-40b6236e2672/azure-ai-fundamentals-600x600.png",
       badgeAlt: "Microsoft Azure AI Fundamentals Badge"
@@ -37,7 +37,7 @@ const Certifications = () => {
       issuer: "Docker & LinkedIn",
       date: "2024",
       description: "Comprehensive understanding of containerization, Docker fundamentals, and container orchestration",
-      credentialUrl: "https://example.com/cert2",
+      credentialUrl: "https://drive.google.com/file/d/1UKngxRrKQZccn3imnQJfhhLH6YQ21wQP/view?usp=sharing",
       skills: ["Docker", "Containerization", "DevOps", "Microservices"],
       badgeImage: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
       badgeAlt: "Docker Logo"
@@ -45,9 +45,9 @@ const Certifications = () => {
     {
       title: "Deloitte Data Analytics Job Simulation",
       issuer: "Forage",
-      date: "2024",
+      date: "2025",
       description: "Practical experience in data analytics methodologies and business intelligence solutions",
-      credentialUrl: "https://example.com/cert3",
+      credentialUrl: "https://forage-uploads-prod.s3.amazonaws.com/completion-certificates/9PBTqmSxAf6zZTseP/io9DzWKe3PTsiS6GG_9PBTqmSxAf6zZTseP_xdnNYZzmqSqmuz7xb_1748357316129_completion_certificate.pdf",
       skills: ["Data Analytics", "Business Intelligence", "Data Visualization", "SQL"],
       badgeImage: forageLogo,
       badgeAlt: "Forage Logo"
@@ -57,7 +57,7 @@ const Certifications = () => {
       issuer: "LinkedIn",
       date: "2024",
       description: "Advanced techniques for developing AI-powered chatbots using AWS services and machine learning",
-      credentialUrl: "https://example.com/cert4",
+      credentialUrl: "https://www.linkedin.com/learning/certificates/2ba34bc378076a0d8718e5ba38744d45ac4d97f49134deece13b275bf74dd9f5",
       skills: ["AWS", "Chatbots", "AI/ML", "Natural Language Processing"],
       badgeImage: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
       badgeAlt: "AWS Logo"
