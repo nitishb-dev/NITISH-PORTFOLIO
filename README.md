@@ -170,14 +170,6 @@ npm run build
 - Set up MySQL database on your hosting platform
 - Update connection credentials in production environment
 
-## 🔒 Security Features
-
-- Helmet.js for security headers
-- CORS configuration
-- Rate limiting
-- Input validation and sanitization
-- Environment variable protection
-
 ## 📱 Features
 
 - **Responsive Design** - Works on all devices
