@@ -69,7 +69,7 @@ const Projects = () => {
       image: twitterImage,
       technologies: ["n8n", "OpenAI API", "Twitter API", "Google Sheets API", "JavaScript", "Cron Jobs"],
       type: "report", // Report project with PDF documentation
-      reportUrl: "https://drive.google.com/file/d/1GMnCT9zzA8YFseP-1rKcum1VmGGJqA8y/view?usp=sharing", // Replace with your actual PDF URL
+      confidential: true, // Mark as confidential - no public documentation available
       featured: true
     },
     {
@@ -104,6 +104,18 @@ const Projects = () => {
   // Function to get appropriate button configuration based on project type
   const getProjectButtons = (project) => {
     const buttons = [];
+
+    // Handle confidential projects
+    if (project.confidential) {
+      buttons.push({
+        href: "#",
+        icon: <FileText size={16} />,
+        text: "Details Confidential",
+        className: "bg-amber-100 text-amber-800 cursor-not-allowed border border-amber-200",
+        disabled: true
+      });
+      return buttons;
+    }
 
     // Add GitHub button only if available
     if (project.githubUrl) {
@@ -205,6 +217,13 @@ const Projects = () => {
 
 
 
+                  {/* Confidential Badge */}
+                  {project.confidential && (
+                    <div className="absolute top-3 right-3 bg-amber-500 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-lg">
+                      Confidential
+                    </div>
+                  )}
+
                   {/* Gradient Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-800 ease-in-out"></div>
                 </div>
@@ -304,6 +323,13 @@ const Projects = () => {
                         </div>
 
 
+
+                        {/* Confidential Badge */}
+                        {project.confidential && (
+                          <div className="absolute top-2 right-2 bg-amber-500 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-lg">
+                            Confidential
+                          </div>
+                        )}
 
                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-800 ease-in-out"></div>
                       </div>
