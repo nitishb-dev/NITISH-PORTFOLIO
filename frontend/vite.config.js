@@ -4,7 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: '/NITISH-PORTFOLIO/',
+  base: '/', // Use root path for custom domain
   server: {
     port: 5173,
     proxy: {
@@ -18,4 +18,5 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: true,
   },
+  publicDir: '../public', // Include CNAME from root public folder
 });
