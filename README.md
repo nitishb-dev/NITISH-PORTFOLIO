@@ -1,7 +1,7 @@
 # Full Stack Portfolio
 
 My personal portfolio showcasing my projects and skills as a Software Engineer.  
-🌐 **Live Demo**: [your-portfolio-link]
+🌐 **Live Demo**: [[your-portfolio-link]](https://nitishb.me/)
 
 ## 🚀 Tech Stack
 React • Tailwind • Node.js • Express • MySQL  
