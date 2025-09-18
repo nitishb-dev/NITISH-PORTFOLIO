@@ -7,7 +7,7 @@ import contactRoutes from "./routes/contact.js";
 
 const app = express();
 
-app.use(helmet());
+app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(
   cors({
     origin: [
