@@ -103,7 +103,7 @@ const About = () => {
                     <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                   </div>
                   <p className="text-sm text-green-800">
-                    <span className="font-semibold">Available for opportunities</span> • Full-time from June 2026 • Open to internships
+                    <span className="font-semibold">Available for opportunities</span> • Full-time from July 2026 • Open to internships
                   </p>
                 </div>
               </div>
