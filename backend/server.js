@@ -44,10 +44,4 @@ app.use("*", (req, res) => {
   res.status(404).json({ message: "Route not found" });
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Portfolio Backend running on port ${PORT}`);
-  console.log(`📧 Contact form available at: /api/contact`);
-  console.log(`❤️  Health check available at: /api/health`);
-});
-
 export default app;
