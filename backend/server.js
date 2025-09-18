@@ -52,3 +52,5 @@ app.listen(PORT, () => {
   console.log(`📧 Contact form available at: /api/contact`);
   console.log(`❤️  Health check available at: /api/health`);
 });
+
+export default app;
