@@ -1,5 +1,4 @@
-import "dotenv/config"; // This loads .env before anything else
-
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -7,12 +6,15 @@ import rateLimit from "express-rate-limit";
 import contactRoutes from "./routes/contact.js";
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 app.use(helmet());
 app.use(
   cors({
-    origin: ["https://nitishb.me", "http://localhost:5173"],
+    origin: [
+      "https://nitishb.me", // Your custom domain for GitHub Pages
+      "https://nitishb-dev.github.io", // Your default GitHub Pages domain
+      "http://localhost:5173", // Your local development environment
+    ],
     credentials: true,
   })
 );
@@ -43,5 +45,12 @@ app.use((err, req, res, next) => {
 app.use("*", (req, res) => {
   res.status(404).json({ message: "Route not found" });
 });
+
+// REMOVE or COMMENT OUT app.listen() for Vercel deployment!
+// app.listen(PORT, () => {
+//   console.log(`🚀 Portfolio Backend running on port ${PORT}`);
+//   console.log(`📧 Contact form available at: /api/contact`);
+//   console.log(`❤️  Health check available at: /api/health`);
+// });
 
 export default app;
