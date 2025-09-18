@@ -8,6 +8,7 @@ import twitterImage from '../images/twitterQuoteAutomation.jpg';
 import powerBIImage from '../images/powerbi.png';
 import todoImage from '../images/Todo.jpg';
 import seleniumImage from '../images/TestingPrj.png';
+import favicon from "../images/favicon.png"
 
 // Clean SVG Icons
 const ExternalLink = ({ size = 16, className = "" }) => (
@@ -43,6 +44,8 @@ const Play = ({ size = 16, className = "" }) => (
 const Projects = () => {
   const [ref, isVisible] = useScrollFadeObserver();
   const [currentSlide, setCurrentSlide] = React.useState(0);
+  const [touchStart, setTouchStart] = React.useState(null);
+  const [touchEnd, setTouchEnd] = React.useState(null);
 
   const projects = [
     {
@@ -169,6 +172,32 @@ const Projects = () => {
 
   const goToSlide = (index) => {
     setCurrentSlide(index);
+  };
+
+  // Touch handlers for swipe functionality
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      nextSlide();
+    } else if (isRightSwipe) {
+      prevSlide();
+    }
   };
 
   // Auto-play carousel
@@ -298,6 +327,9 @@ const Projects = () => {
                 style={{
                   transform: `translateX(-${currentSlide * 100}%)`,
                 }}
+                onTouchStart={onTouchStart}
+                onTouchMove={onTouchMove}
+                onTouchEnd={onTouchEnd}
               >
                 {projects.map((project, index) => (
                   <div
