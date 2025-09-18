@@ -15,6 +15,8 @@ app.use(
       "https://nitishb-dev.github.io", // Your default GitHub Pages domain
       "http://localhost:5173", // Your local development environment
     ],
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
