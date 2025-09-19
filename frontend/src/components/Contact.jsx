@@ -51,7 +51,12 @@ const Contact = () => {
         setIsSubmitting(false);
         return;
       }
-      await axios.post("/api/contact", formData);
+      // Use an absolute URL in production from an environment variable
+      // and a relative path for local dev (which is proxied by vite.config.js)
+      await axios.post(
+        `${import.meta.env.VITE_API_URL || ""}/api/contact`,
+        formData
+      );
       setSubmitStatus("success");
       setFormData({ name: "", email: "", subject: "", message: "" });
     } catch (error) {
@@ -59,15 +64,11 @@ const Contact = () => {
       // Log detailed error information for debugging
       console.error("Contact form submission failed:", error);
       if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
         console.error("Backend Response Error:", error.response.data);
         console.error("Status Code:", error.response.status);
       } else if (error.request) {
-        // The request was made but no response was received
         console.error("No response received:", error.request);
       } else {
-        // Something happened in setting up the request that triggered an Error
         console.error("Axios setup error:", error.message);
       }
     } finally {
