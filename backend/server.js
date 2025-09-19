@@ -7,17 +7,18 @@ import contactRoutes from "./routes/contact.js";
 
 const app = express();
 
+// Security headers
 app.use(helmet({ crossOriginResourcePolicy: false }));
 
 // CORS Configuration
 const allowedOrigins = [
   "https://nitishb.me",
-  "https://nitish-portfolio-seven.vercel.app",
+  "https://nitish-portfolio-seven.vercel.app", // your frontend
   "http://localhost:5173",
   "http://127.0.0.1:5173",
 ];
 
-const corsOptions = {
+app.use(cors({
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
@@ -28,20 +29,19 @@ const corsOptions = {
   credentials: true,
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
-};
+}));
 
-app.use(cors(corsOptions));
-
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
+// Rate limiter
+app.use(rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 mins
   max: 100,
-});
-app.use(limiter);
+}));
 
+// JSON and URL-encoded parsers
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
-// Mount contact routes
+// Routes
 app.use("/api/contact", contactRoutes);
 
 // Health check
@@ -58,11 +58,12 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Fallback route
+// Fallback 404
 app.use("*", (req, res) => {
   res.status(404).json({ message: "Route not found" });
 });
 
+// Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Portfolio Backend running on port ${PORT}`);
