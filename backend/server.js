@@ -11,16 +11,14 @@ app.use(helmet({ crossOriginResourcePolicy: false }));
 
 // CORS Configuration
 const allowedOrigins = [
-  "https://nitishb.me",               // your custom domain
-  "https://nitish-portfolio-seven.vercel.app", // vercel deploy
+  "https://nitishb.me",
+  "https://nitish-portfolio-seven.vercel.app",
   "http://localhost:5173",
   "http://127.0.0.1:5173",
 ];
 
 const corsOptions = {
   origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    // and from our whitelisted origins.
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -32,7 +30,6 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
-// Enable CORS with options. This will handle preflight requests automatically.
 app.use(cors(corsOptions));
 
 const limiter = rateLimit({
@@ -44,12 +41,15 @@ app.use(limiter);
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
+// Mount contact routes
 app.use("/api/contact", contactRoutes);
 
+// Health check
 app.get("/api/health", (req, res) => {
   res.json({ status: "OK", timestamp: new Date().toISOString() });
 });
 
+// Error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({
@@ -58,15 +58,14 @@ app.use((err, req, res, next) => {
   });
 });
 
+// Fallback route
 app.use("*", (req, res) => {
   res.status(404).json({ message: "Route not found" });
 });
 
 const PORT = process.env.PORT || 5000;
-
 app.listen(PORT, () => {
   console.log(`🚀 Portfolio Backend running on port ${PORT}`);
 });
-
 
 export default app;

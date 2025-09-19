@@ -26,31 +26,49 @@ const Contact = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    // Clear the error for the field being edited
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: null });
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.name.trim() || formData.name.length < 2) {
+      newErrors.name = "Name must be at least 2 characters long.";
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required.";
+    } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address.";
+    }
+    if (!formData.subject.trim() || formData.subject.length < 5) {
+      newErrors.subject = "Subject must be at least 5 characters long.";
+    }
+    if (!formData.message.trim() || formData.message.length < 10) {
+      newErrors.message = "Message must be at least 10 characters long.";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
     setSubmitStatus(null);
 
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setErrors({});
+
     try {
-      // Make sure all fields are filled
-      if (
-        !formData.name ||
-        !formData.email ||
-        !formData.subject ||
-        !formData.message
-      ) {
-        setSubmitStatus("error");
-        setIsSubmitting(false);
-        return;
-      }
       // Use an absolute URL in production from an environment variable
       // and a relative path for local dev (which is proxied by vite.config.js)
       await axios.post(
@@ -108,6 +126,9 @@ const Contact = () => {
                   className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                   placeholder="Your Name"
                 />
+                {errors.name && (
+                  <p className="mt-1 text-sm text-red-600">{errors.name}</p>
+                )}
               </div>
               <div>
                 <label
@@ -127,6 +148,9 @@ const Contact = () => {
                   className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                   placeholder="your.email@example.com"
                 />
+                {errors.email && (
+                  <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+                )}
               </div>
             </div>
             <div>
@@ -147,6 +171,9 @@ const Contact = () => {
                 className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 placeholder="Project Discussion"
               />
+              {errors.subject && (
+                <p className="mt-1 text-sm text-red-600">{errors.subject}</p>
+              )}
             </div>
             <div>
               <label
@@ -166,6 +193,9 @@ const Contact = () => {
                 className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 resize-none"
                 placeholder="Tell me about your project..."
               />
+              {errors.message && (
+                <p className="mt-1 text-sm text-red-600">{errors.message}</p>
+              )}
             </div>
             <button
               type="submit"
