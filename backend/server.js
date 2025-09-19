@@ -8,18 +8,31 @@ import contactRoutes from "./routes/contact.js";
 const app = express();
 
 app.use(helmet({ crossOriginResourcePolicy: false }));
-app.use(
-  cors({
-    origin: [
-      "https://nitishb.me", // Your custom domain for GitHub Pages
-      "https://nitishb-dev.github.io", // Your default GitHub Pages domain
-      "http://localhost:5173", // Your local development environment
-    ],
-    methods: ["GET", "POST", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-  })
-);
+
+// CORS Configuration
+const allowedOrigins = [
+  "https://nitishb.me",
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    // and from our whitelisted origins.
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+// Enable CORS with options. This will handle preflight requests automatically.
+app.use(cors(corsOptions));
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -48,11 +61,14 @@ app.use("*", (req, res) => {
   res.status(404).json({ message: "Route not found" });
 });
 
-// REMOVE or COMMENT OUT app.listen() for Vercel deployment!
-// app.listen(PORT, () => {
-//   console.log(`🚀 Portfolio Backend running on port ${PORT}`);
-//   console.log(`📧 Contact form available at: /api/contact`);
-//   console.log(`❤️  Health check available at: /api/health`);
-// });
+const PORT = process.env.PORT || 5000;
+
+// This block only runs when you start the server locally (e.g., `npm run dev`).
+// It will not run on Vercel, which handles the server lifecycle automatically.
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => {
+    console.log(`🚀 Portfolio Backend running on port ${PORT}`);
+  });
+}
 
 export default app;

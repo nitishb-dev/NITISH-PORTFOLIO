@@ -1,13 +1,15 @@
 # Portfolio Backend
 
-A clean, minimal backend for your portfolio website with only essential features.
+A modern, serverless-ready backend for your portfolio website, built with Node.js, Express, and Supabase.
 
 ## 🚀 Features
 
 - **Contact Form API** - Handle contact form submissions
-- **MySQL Database** - Store contact messages securely
-- **Security** - CORS, Helmet, Rate limiting
-- **Validation** - Input validation with Joi
+- **Supabase Integration** - Store contact messages in a Supabase (PostgreSQL) database.
+- **Email Notifications** - Get instant email notifications for new submissions using Nodemailer.
+- **Serverless Ready** - Designed for easy deployment on Vercel.
+- **Security** - Includes Helmet for security headers, rate limiting to prevent abuse, and robust CORS handling.
+- **Validation** - Server-side input validation using Joi.
 
 ## 📁 Project Structure
 
@@ -27,12 +29,14 @@ backend/
 ## 🛠️ Setup
 
 1. **Install dependencies:**
+
 ```bash
 npm install
 ```
 
 2. **Configure environment:**
-Update `.env` with your MySQL credentials:
+   Update `.env` with your MySQL credentials:
+
 ```env
 DB_HOST=localhost
 DB_USER=root
@@ -41,11 +45,13 @@ DB_NAME=portfolio_db
 ```
 
 3. **Create database:**
+
 ```bash
 npm run migrate
 ```
 
 4. **Start server:**
+
 ```bash
 # Development
 npm run dev
@@ -57,7 +63,9 @@ npm start
 ## 📡 API Endpoints
 
 ### Contact Form
+
 - **POST** `/api/contact`
+
   - Submit contact form
   - Body: `{ "name", "email", "subject", "message" }`
   - Response: `{ "message": "Contact form submitted successfully" }`
@@ -67,6 +75,7 @@ npm start
   - Response: `{ "contacts": [...], "total": 5 }`
 
 ### Health Check
+
 - **GET** `/api/health`
   - Check server status
   - Response: `{ "status": "OK", "timestamp": "..." }`
@@ -74,6 +83,7 @@ npm start
 ## 🧪 Testing
 
 Test the contact form:
+
 ```bash
 curl -X POST http://localhost:5000/api/contact \
   -H "Content-Type: application/json" \
@@ -96,6 +106,7 @@ curl -X POST http://localhost:5000/api/contact \
 ## 🚀 Deployment
 
 The backend is ready for deployment to:
+
 - **Heroku**
 - **Railway**
 - **DigitalOcean**
@@ -107,6 +118,7 @@ Just update the CORS origin in `server.js` to your frontend domain.
 ## 📊 Database Schema
 
 ### contacts table
+
 ```sql
 CREATE TABLE contacts (
   id INT AUTO_INCREMENT PRIMARY KEY,
