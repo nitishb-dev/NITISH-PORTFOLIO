@@ -13,16 +13,19 @@ app.use(helmet({ crossOriginResourcePolicy: false }));
 // CORS Configuration
 const allowedOrigins = [
   "https://nitishb.me",
+  "https://www.nitishb.me",
   "https://nitish-portfolio-seven.vercel.app", // your frontend
-  "http://localhost:5173",
-  "http://127.0.0.1:5173",
 ];
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
+    // Allow non-browser requests (like Postman with no origin)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.warn(`Blocked by CORS: ${origin}`);
       callback(new Error("Not allowed by CORS"));
     }
   },
@@ -30,6 +33,10 @@ app.use(cors({
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
+
+// Handle preflight requests
+app.options("*", cors());
+
 
 // Rate limiter
 app.use(rateLimit({
