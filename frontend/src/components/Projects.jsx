@@ -393,7 +393,7 @@ const Projects = () => {
             <div className="relative overflow-hidden">
               {/* Carousel Container */}
               <div
-                className="flex transition-transform duration-500 ease-in-out"
+                className="flex transition-transform duration-1000 ease-in-out"
                 style={{
                   transform: `translateX(-${currentSlide * 100}%)`,
                 }}
