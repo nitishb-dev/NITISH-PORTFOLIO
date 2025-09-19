@@ -1,13 +1,12 @@
 # Portfolio Backend
 
-A modern, serverless-ready backend for your portfolio website, built with Node.js, Express, and Supabase.
+A modern backend for your portfolio website, built with Node.js, Express, and Supabase. It is designed to be deployed as a web service on platforms like Render.
 
 ## 🚀 Features
 
 - **Contact Form API** - Handle contact form submissions
 - **Supabase Integration** - Store contact messages in a Supabase (PostgreSQL) database.
 - **Email Notifications** - Get instant email notifications for new submissions using Nodemailer.
-- **Serverless Ready** - Designed for easy deployment on Vercel.
 - **Security** - Includes Helmet for security headers, rate limiting to prevent abuse, and robust CORS handling.
 - **Validation** - Server-side input validation using Joi.
 

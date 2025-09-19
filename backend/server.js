@@ -11,7 +11,8 @@ app.use(helmet({ crossOriginResourcePolicy: false }));
 
 // CORS Configuration
 const allowedOrigins = [
-  "https://nitishb.me",
+  "https://nitishb.me",               // your custom domain
+  "https://nitish-portfolio-seven.vercel.app", // vercel deploy
   "http://localhost:5173",
   "http://127.0.0.1:5173",
 ];
@@ -63,12 +64,9 @@ app.use("*", (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-// This block only runs when you start the server locally (e.g., `npm run dev`).
-// It will not run on Vercel, which handles the server lifecycle automatically.
-if (process.env.NODE_ENV !== "production") {
-  app.listen(PORT, () => {
-    console.log(`🚀 Portfolio Backend running on port ${PORT}`);
-  });
-}
+app.listen(PORT, () => {
+  console.log(`🚀 Portfolio Backend running on port ${PORT}`);
+});
+
 
 export default app;
