@@ -9,7 +9,6 @@ import twitterImage from "../images/twitterQuoteAutomation.jpg";
 import powerBIImage from "../images/powerbi.png";
 import todoImage from "../images/Todo.jpg";
 import seleniumImage from "../images/TestingPrj.png";
-import favicon from "../images/favicon.png";
 
 // Clean SVG Icons
 const ExternalLink = ({ size = 16, className = "" }) => (
@@ -101,18 +100,16 @@ const Projects = () => {
       title: "Cricket Management",
       description:
         "A full-stack dynamic Cricket Web Application that manages cricket matches, dynamic teams, player statistics, and match history.",
-      image: airesumehelper,
+      image: cricketManagementImage,
       technologies: [
-        "n8n",
-        "JavaScript",
-        "Gemini API",
         "ReactJS",
-        "TailwindCSS",
-        "Text Extraction",
-        "AI Autoamtion",
+        "TypeScript",
+        "NodeJS",
+        "Express",
+        "MySQL",
       ],
-      type: "AI", //
-      githubUrl: "https://github.com/nitishb-dev/AI-Resume-Helper.git",
+      type: "Web Developement", //
+      githubUrl: "https://github.com/nitishb-dev/Cricket-Management.git",
       featured: true,
     },
     {
