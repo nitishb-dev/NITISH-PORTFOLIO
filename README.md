@@ -13,3 +13,8 @@ React • Tailwind • Node.js • Express • Supabase
 - Projects & skills showcase
 - Contact form with DB storage
 - Modern UI & smooth animations
+
+## ☁️ Deployment
+
+- **Frontend**: Deployed on [Vercel](https://vercel.com/)  
+- **Backend**: Deployed on [Render](https://render.com/)
