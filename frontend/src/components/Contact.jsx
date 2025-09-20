@@ -115,12 +115,6 @@ const Contact = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Map Column */}
           <div className="flex flex-col">
-            <h3 className="text-2xl font-bold text-gray-900 mb-2 text-center lg:text-left">
-              My Location
-            </h3>
-            <p className="text-lg text-gray-600 mb-6 text-center lg:text-left">
-              I'm currently based here, feel free to connect!
-            </p>
             {/* This container will grow to fill the available vertical space */}
             <div className="rounded-lg overflow-hidden shadow-2xl border border-gray-200 flex-grow">
               <iframe
@@ -138,10 +132,11 @@ const Contact = () => {
           {/* Contact Form Column */}
           {/* Use flex to ensure the card takes the full height of the grid cell */}
           <div className="bg-white rounded-xl p-6 sm:p-8 shadow-lg border border-gray-200 flex flex-col h-full">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center lg:text-left">
-              Send a Message
-            </h3>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            {/* The form now takes up the full height of the card */}
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-6 flex flex-col flex-grow"
+            >
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <label
@@ -224,8 +219,8 @@ const Contact = () => {
                   value={formData.message}
                   onChange={handleChange}
                   required
-                  rows={5}
-                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 resize-none"
+                  rows={5} // You can adjust this or use flex-grow
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 resize-none flex-grow"
                   placeholder="Tell me about your project..."
                 />
                 {errors.message && (
@@ -235,7 +230,7 @@ const Contact = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 text-white rounded-lg text-base font-medium transition"
+                className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 text-white rounded-lg text-base font-medium transition mt-auto"
               >
                 {isSubmitting ? (
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
