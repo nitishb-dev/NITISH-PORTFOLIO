@@ -68,7 +68,7 @@ const Publications = () => {
       book: "Humans and Generative AI Tools for Collaborative Intelligence",
       publisher: "IGI Global",
       role: "Co-Author",
-      year: "2024",
+      year: "2025",
       description:
         "Developed and compared machine learning models (KNN, Decision Tree, SVM, Autoencoders) on the LeapGestRecog dataset (20,000 images). Achieved 99.98% accuracy using SVM with RBF kernel and Autoencoder.",
       highlights: [
