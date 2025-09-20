@@ -76,6 +76,7 @@ const Projects = () => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [touchStart, setTouchStart] = React.useState(null);
   const [touchEnd, setTouchEnd] = React.useState(null);
+  const [showAllProjects, setShowAllProjects] = React.useState(false);
 
   const projects = [
     {
@@ -97,17 +98,38 @@ const Projects = () => {
       featured: true,
     },
     {
+      title: "Cloud-Native Todo App with AWS & React",
+      description:
+        "Developed a serverless Todo app with React.js (Vercel) frontend, AWS Lambda (Python) backend, and MySQL (RDS). Enabled secure CRUD operations and scalable deployment.",
+      image: todoImage,
+      technologies: [
+        "React.js",
+        "AWS Lambda",
+        "API Gateway",
+        "MySQL",
+        "Vercel",
+        "Python",
+      ],
+      type: "concept", // Concept project (no live demo or code)
+      githubUrl: "https://github.com/nitishb-dev/REACT_TODO_LIST.git",
+      featured: true,
+    },
+    {
+      title: "Amazon Test Automation with Selenium",
+      description:
+        "Automated login, search, and checkout flows on Amazon using Selenium WebDriver with Java and TestNG. Ensured functional testing and regression coverage.",
+      image: seleniumImage,
+      technologies: ["Selenium", "Java", "TestNG", "ChromeDriver"],
+      type: "testing", // Testing project
+      githubUrl: "https://github.com/nitishb-dev/Amazon_AutomationTesting.git",
+      featured: false,
+    },
+    {
       title: "Cricket Management",
       description:
         "A full-stack dynamic Cricket Web Application that manages cricket matches, dynamic teams, player statistics, and match history.",
       image: cricketManagementImage,
-      technologies: [
-        "ReactJS",
-        "TypeScript",
-        "NodeJS",
-        "Express",
-        "MySQL",
-      ],
+      technologies: ["ReactJS", "TypeScript", "NodeJS", "Express", "MySQL"],
       type: "Web Developement", //
       githubUrl: "https://github.com/nitishb-dev/Cricket-Management.git",
       featured: true,
@@ -146,44 +168,17 @@ const Projects = () => {
       confidential: true, // Mark as confidential - no public documentation available
       featured: true,
     },
-    {
-      title: "Sales Dashboard using Power BI",
-      description:
-        "Created an interactive dashboard to analyze Superstore sales (15.6L+ revenue, ₹1.75L profit). Used DAX for KPIs, trend analysis, and segment-wise insights.",
-      image: powerBIImage,
-      technologies: ["Power BI", "DAX", "Power Query", "Data Visualization"],
-      type: "report", // Report project
-      reportUrl:
-        "https://drive.google.com/file/d/1HWQg_Onf5e1BrLbyd0cAy68hzoM7iSAd/view?usp=drive_link",
-      featured: true,
-    },
-    {
-      title: "Cloud-Native Todo App with AWS & React",
-      description:
-        "Developed a serverless Todo app with React.js (Vercel) frontend, AWS Lambda (Python) backend, and MySQL (RDS). Enabled secure CRUD operations and scalable deployment.",
-      image: todoImage,
-      technologies: [
-        "React.js",
-        "AWS Lambda",
-        "API Gateway",
-        "MySQL",
-        "Vercel",
-        "Python",
-      ],
-      type: "concept", // Concept project (no live demo or code)
-      githubUrl: "https://github.com/nitishb-dev/REACT_TODO_LIST.git",
-      featured: true,
-    },
-    {
-      title: "Amazon Test Automation with Selenium",
-      description:
-        "Automated login, search, and checkout flows on Amazon using Selenium WebDriver with Java and TestNG. Ensured functional testing and regression coverage.",
-      image: seleniumImage,
-      technologies: ["Selenium", "Java", "TestNG", "ChromeDriver"],
-      type: "testing", // Testing project
-      githubUrl: "https://github.com/nitishb-dev/Amazon_AutomationTesting.git",
-      featured: false,
-    },
+    // {
+    //   title: "Sales Dashboard using Power BI",
+    //   description:
+    //     "Created an interactive dashboard to analyze Superstore sales (15.6L+ revenue, ₹1.75L profit). Used DAX for KPIs, trend analysis, and segment-wise insights.",
+    //   image: powerBIImage,
+    //   technologies: ["Power BI", "DAX", "Power Query", "Data Visualization"],
+    //   type: "report", // Report project
+    //   reportUrl:
+    //     "https://drive.google.com/file/d/1HWQg_Onf5e1BrLbyd0cAy68hzoM7iSAd/view?usp=drive_link",
+    //   featured: true,
+    // },
   ];
 
   // Function to get appropriate button configuration based on project type
@@ -307,102 +302,125 @@ const Projects = () => {
 
           {/* Desktop/Tablet Grid */}
           <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {projects.map((project, index) => (
-              <div
-                key={index}
-                className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-gray-100 hover:border-gray-200 transition-all duration-300 hover:-translate-y-1 flex flex-col h-full"
-              >
-                {/* Project Image with Enhanced Overlay */}
-                <div className="h-48 relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-1000 ease-in-out group-hover:scale-103"
-                    onError={(e) => {
-                      e.target.style.display = "none";
-                      e.target.nextSibling.style.display = "flex";
-                    }}
-                  />
-                  <div className="w-full h-full bg-gradient-to-br from-blue-500 to-indigo-600 hidden items-center justify-center">
-                    <div className="text-white text-center">
-                      <div className="w-16 h-16 bg-white/20 rounded-lg mx-auto mb-2"></div>
-                      <p className="text-sm font-semibold">Project Preview</p>
+            {projects
+              .slice(0, showAllProjects ? projects.length : 3)
+              .map((project, index) => (
+                <div
+                  key={index}
+                  className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-gray-100 hover:border-gray-200 transition-all duration-300 hover:-translate-y-1 flex flex-col h-full"
+                >
+                  {/* Project Image with Enhanced Overlay */}
+                  <div className="h-48 relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover transition-transform duration-1000 ease-in-out group-hover:scale-103"
+                      onError={(e) => {
+                        e.target.style.display = "none";
+                        e.target.nextSibling.style.display = "flex";
+                      }}
+                    />
+                    <div className="w-full h-full bg-gradient-to-br from-blue-500 to-indigo-600 hidden items-center justify-center">
+                      <div className="text-white text-center">
+                        <div className="w-16 h-16 bg-white/20 rounded-lg mx-auto mb-2"></div>
+                        <p className="text-sm font-semibold">Project Preview</p>
+                      </div>
                     </div>
+
+                    {/* Confidential Badge */}
+                    {project.confidential && (
+                      <div className="absolute top-3 right-3 bg-amber-500 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-lg">
+                        Confidential
+                      </div>
+                    )}
+
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-800 ease-in-out"></div>
                   </div>
 
-                  {/* Confidential Badge */}
-                  {project.confidential && (
-                    <div className="absolute top-3 right-3 bg-amber-500 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-lg">
-                      Confidential
-                    </div>
-                  )}
+                  {/* Card Content with Better Spacing */}
+                  <div className="p-6 flex flex-col flex-1">
+                    {/* Title with Better Typography */}
+                    <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
+                      {project.title}
+                    </h3>
 
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-800 ease-in-out"></div>
-                </div>
+                    {/* Description with Improved Readability */}
+                    <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
+                      {project.description}
+                    </p>
 
-                {/* Card Content with Better Spacing */}
-                <div className="p-6 flex flex-col flex-1">
-                  {/* Title with Better Typography */}
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
-                    {project.title}
-                  </h3>
-
-                  {/* Description with Improved Readability */}
-                  <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
-                    {project.description}
-                  </p>
-
-                  {/* Technologies with Better Visual Hierarchy */}
-                  <div className="mb-6 flex-1">
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies
-                        .slice(0, 4)
-                        .map((tech, techIndex) => (
-                          <span
-                            key={techIndex}
-                            className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-xs font-medium hover:bg-blue-50 hover:text-blue-700 transition-colors duration-200"
-                          >
-                            {tech}
+                    {/* Technologies with Better Visual Hierarchy */}
+                    <div className="mb-6 flex-1">
+                      <div className="flex flex-wrap gap-2">
+                        {project.technologies
+                          .slice(0, 4)
+                          .map((tech, techIndex) => (
+                            <span
+                              key={techIndex}
+                              className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-xs font-medium hover:bg-blue-50 hover:text-blue-700 transition-colors duration-200"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        {project.technologies.length > 4 && (
+                          <span className="px-3 py-1 bg-gray-50 text-gray-500 rounded-lg text-xs font-medium">
+                            +{project.technologies.length - 4} more
                           </span>
-                        ))}
-                      {project.technologies.length > 4 && (
-                        <span className="px-3 py-1 bg-gray-50 text-gray-500 rounded-lg text-xs font-medium">
-                          +{project.technologies.length - 4} more
-                        </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Enhanced Action Buttons */}
+                    <div className="flex gap-3 mt-auto">
+                      {getProjectButtons(project).map((button, buttonIndex) =>
+                        button.disabled ? (
+                          <div
+                            key={buttonIndex}
+                            className="flex items-center justify-center space-x-2 px-4 py-2.5 rounded-lg text-sm font-medium bg-gray-100 text-gray-400 cursor-not-allowed flex-1"
+                          >
+                            {button.icon}
+                            <span>{button.text}</span>
+                          </div>
+                        ) : (
+                          <a
+                            key={buttonIndex}
+                            href={button.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`flex items-center justify-center space-x-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 flex-1 ${button.className}`}
+                          >
+                            {button.icon}
+                            <span>{button.text}</span>
+                          </a>
+                        )
                       )}
                     </div>
                   </div>
-
-                  {/* Enhanced Action Buttons */}
-                  <div className="flex gap-3 mt-auto">
-                    {getProjectButtons(project).map((button, buttonIndex) =>
-                      button.disabled ? (
-                        <div
-                          key={buttonIndex}
-                          className="flex items-center justify-center space-x-2 px-4 py-2.5 rounded-lg text-sm font-medium bg-gray-100 text-gray-400 cursor-not-allowed flex-1"
-                        >
-                          {button.icon}
-                          <span>{button.text}</span>
-                        </div>
-                      ) : (
-                        <a
-                          key={buttonIndex}
-                          href={button.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={`flex items-center justify-center space-x-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 flex-1 ${button.className}`}
-                        >
-                          {button.icon}
-                          <span>{button.text}</span>
-                        </a>
-                      )
-                    )}
-                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
+
+          {/* "View More" / "Show Less" Button for Desktop */}
+          {projects.length > 3 && (
+            <div className="hidden md:flex justify-center mt-12">
+              {showAllProjects ? (
+                <button
+                  onClick={() => setShowAllProjects(false)}
+                  className="px-8 py-3 bg-gray-200 text-gray-800 text-base font-medium rounded-lg shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 transition-all duration-300"
+                >
+                  Show Less
+                </button>
+              ) : (
+                <button
+                  onClick={() => setShowAllProjects(true)}
+                  className="px-8 py-3 bg-blue-600 text-white text-base font-medium rounded-lg shadow-md hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300"
+                >
+                  View More Projects
+                </button>
+              )}
+            </div>
+          )}
 
           {/* Enhanced Mobile Carousel */}
           <div className="md:hidden">
