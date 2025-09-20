@@ -4,6 +4,7 @@ import useScrollFadeObserver from "../hooks/useScrollFadeObserver";
 // Import images
 import nlpImage from "../images/nlpprjLSTM.jpg";
 import airesumehelper from "../images/airesumehelper.png";
+import cricketManagementImage from "../images/cricketManagementImage.png";
 import twitterImage from "../images/twitterQuoteAutomation.jpg";
 import powerBIImage from "../images/powerbi.png";
 import todoImage from "../images/Todo.jpg";
@@ -82,6 +83,24 @@ const Projects = () => {
       title: "AI Resume Helper",
       description:
         "Built an AI-powered resume analyzer that compares resumes against job descriptions. Built with React, TypeScript & N8N workflows. Get match scores, keyword suggestions & improvement tips. Upload resume as PDF & paste text of JD for instant analysis.",
+      image: airesumehelper,
+      technologies: [
+        "n8n",
+        "JavaScript",
+        "Gemini API",
+        "ReactJS",
+        "TailwindCSS",
+        "Text Extraction",
+        "AI Autoamtion",
+      ],
+      type: "AI", //
+      githubUrl: "https://github.com/nitishb-dev/AI-Resume-Helper.git",
+      featured: true,
+    },
+    {
+      title: "Cricket Management",
+      description:
+        "A full-stack dynamic Cricket Web Application that manages cricket matches, dynamic teams, player statistics, and match history.",
       image: airesumehelper,
       technologies: [
         "n8n",

@@ -39,7 +39,7 @@ const Skills = () => {
 
 
   return (
-    <section id="skills" className="py-20 bg-gray-50">
+    <section id="skills" className="py-20 bg-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div ref={ref} className={`scroll-fade-section ${isVisible ? 'visible' : ''}`}>
           <div className="text-center mb-12 md:mb-16">

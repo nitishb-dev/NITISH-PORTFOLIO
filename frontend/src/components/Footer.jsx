@@ -55,7 +55,7 @@ const Footer = () => {
           <div className="text-center md:text-left">
             <h3 className="text-lg font-bold text-gray-900 mb-2">Nitish's Portfolio</h3>
             <p className="text-gray-600 text-sm max-w-md">
-              Keep Rising 🚀. Connect with me over live chat!<br />
+              Keep Rising 🚀. Connect with me over Socials!<br />
               Thank you for visiting my personal portfolio website.
             </p>
           </div>
