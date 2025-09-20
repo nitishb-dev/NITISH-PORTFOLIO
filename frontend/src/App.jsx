@@ -16,7 +16,7 @@ const roles = [
   "Full-Stack Developer",
   "AI & ML Enthusiast",
   "Automation & Testing Engineer",
-  "Problem Solver"
+  "Problem Solver",
 ];
 
 function App() {
@@ -32,7 +32,16 @@ function App() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['hero', 'about', 'skills', 'projects', 'publications', 'education', 'certifications', 'contact'];
+      const sections = [
+        "hero",
+        "about",
+        "skills",
+        "projects",
+        "publications",
+        "education",
+        "certifications",
+        "contact",
+      ];
       const navbarHeight = 64;
       const scrollTop = window.scrollY;
       const windowHeight = window.innerHeight;
@@ -40,15 +49,15 @@ function App() {
 
       // Special case for hero section (when at the very top)
       if (scrollTop < 50) {
-        setActiveSection('hero');
+        setActiveSection("hero");
         return;
       }
 
-      let currentSection = 'hero';
+      let currentSection = "hero";
       let minDistance = Infinity;
 
       // Find the section whose center is closest to the viewport center
-      sections.forEach(sectionId => {
+      sections.forEach((sectionId) => {
         const element = document.getElementById(sectionId);
         if (element) {
           const rect = element.getBoundingClientRect();
@@ -60,7 +69,8 @@ function App() {
           const distance = Math.abs(viewportCenter - elementCenter);
 
           // Also check if the section is actually visible in the viewport
-          const isVisible = rect.top < windowHeight && rect.bottom > navbarHeight;
+          const isVisible =
+            rect.top < windowHeight && rect.bottom > navbarHeight;
 
           if (isVisible && distance < minDistance) {
             minDistance = distance;
@@ -87,10 +97,10 @@ function App() {
       }
     };
 
-    window.addEventListener('scroll', throttledScroll);
+    window.addEventListener("scroll", throttledScroll);
 
     return () => {
-      window.removeEventListener('scroll', throttledScroll);
+      window.removeEventListener("scroll", throttledScroll);
     };
   }, []);
 
@@ -101,7 +111,7 @@ function App() {
       let elementPosition;
 
       // For hero section, scroll to top
-      if (sectionId === 'hero') {
+      if (sectionId === "hero") {
         elementPosition = 0;
       } else {
         elementPosition = element.offsetTop - navbarHeight;
@@ -109,7 +119,7 @@ function App() {
 
       window.scrollTo({
         top: elementPosition,
-        behavior: "smooth"
+        behavior: "smooth",
       });
     }
   };
