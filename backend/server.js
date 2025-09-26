@@ -7,58 +7,75 @@ import contactRoutes from "./routes/contact.js";
 
 const app = express();
 
+// ====================
 // Security headers
+// ====================
 app.use(helmet({ crossOriginResourcePolicy: false }));
 
-// Dynamic CORS configuration from environment variables
-const productionOrigins = process.env.CORS_ORIGIN
-  ? process.env.CORS_ORIGIN.split(",").map((origin) => origin.trim())
-  : [];
+// ====================
+// CORS Configuration
+// ====================
 
+// Default origins: localhost for dev + production domain(s)
 const allowedOrigins = [
-  ...new Set(["http://localhost:5173", ...productionOrigins]),
+  "http://localhost:5173",       // dev
+  "https://nitishb.me",          // prod
+  "https://www.nitishb.me",      // prod variant with www
 ];
 
+// Log allowed origins in non-dev
 if (process.env.NODE_ENV !== "development") {
   console.log("Allowed CORS Origins:", allowedOrigins);
 }
 
+// CORS options
 const corsOptions = {
   origin: (origin, callback) => {
-    // Allow requests with no origin (like curl) and all origins from the list
+    // Allow requests with no origin (curl, Postman, mobile apps)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      console.error(`Blocked CORS request from origin: ${origin}`);
+      callback(new Error(`Origin ${origin} not allowed by CORS`));
     }
   },
   credentials: true,
 };
 
-// Use CORS for all routes
+// Apply CORS
 app.use(cors(corsOptions));
 
-// Rate limiter
+// ====================
+// Rate Limiter
+// ====================
 app.use(
   rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 100,
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100,                 // limit each IP to 100 requests per window
+    standardHeaders: true,
+    legacyHeaders: false,
   })
 );
 
-// JSON and URL-encoded parsers
+// ====================
+// Body parsers
+// ====================
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
+// ====================
 // Routes
+// ====================
 app.use("/api/contact", contactRoutes);
 
-// Health check
+// Health check route
 app.get("/api/health", (req, res) => {
   res.json({ status: "OK", timestamp: new Date().toISOString() });
 });
 
+// ====================
 // Error handler
+// ====================
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({
@@ -67,12 +84,16 @@ app.use((err, req, res, next) => {
   });
 });
 
+// ====================
 // Fallback 404
+// ====================
 app.use("*", (req, res) => {
   res.status(404).json({ message: "Route not found" });
 });
 
+// ====================
 // Start server
+// ====================
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Portfolio Backend running on port ${PORT}`);
