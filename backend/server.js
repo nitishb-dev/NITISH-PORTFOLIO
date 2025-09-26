@@ -10,39 +10,47 @@ const app = express();
 // Security headers
 app.use(helmet({ crossOriginResourcePolicy: false }));
 
-// CORS Configuration
+// Dynamic CORS configuration
+const productionOrigins = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(",").map((origin) => origin.trim())
+  : [];
+
+// Always allow localhost for development, and add production origins.
+// Using a Set avoids duplicates.
 const allowedOrigins = [
-  "https://nitishb.me",
-  "https://www.nitishb.me",
-  "https://nitish-portfolio-seven.vercel.app", // your frontend
+  ...new Set(["http://localhost:5173", ...productionOrigins]),
 ];
 
-app.use(cors({
-  origin: (origin, callback) => {
-    // Allow non-browser requests (like Postman with no origin)
-    if (!origin) return callback(null, true);
+if (process.env.NODE_ENV !== "development") {
+  console.log("Allowed CORS Origins:", allowedOrigins);
+}
 
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.warn(`Blocked by CORS: ${origin}`);
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
-  methods: ["GET", "POST", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-}));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
-// Handle preflight requests
+// Handle OPTIONS requests globally (important!)
 app.options("*", cors());
 
-
 // Rate limiter
-app.use(rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 mins
-  max: 100,
-}));
+app.use(
+  rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+  })
+);
 
 // JSON and URL-encoded parsers
 app.use(express.json({ limit: "10mb" }));
