@@ -15,23 +15,18 @@ app.use(helmet({ crossOriginResourcePolicy: false }));
 // ====================
 // CORS Configuration
 // ====================
-
-// Default origins: localhost for dev + production domain(s)
 const allowedOrigins = [
-  "http://localhost:5173",       // dev
-  "https://nitishb.me",          // prod
-  "https://www.nitishb.me",      // prod variant with www
+  "http://localhost:5173",
+  "https://nitishb.me",
+  "https://www.nitishb.me",
 ];
 
-// Log allowed origins in non-dev
 if (process.env.NODE_ENV !== "development") {
   console.log("Allowed CORS Origins:", allowedOrigins);
 }
 
-// CORS options
 const corsOptions = {
   origin: (origin, callback) => {
-    // Allow requests with no origin (curl, Postman, mobile apps)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -42,7 +37,6 @@ const corsOptions = {
   credentials: true,
 };
 
-// Apply CORS
 app.use(cors(corsOptions));
 
 // ====================
@@ -50,8 +44,8 @@ app.use(cors(corsOptions));
 // ====================
 app.use(
   rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100,                 // limit each IP to 100 requests per window
+    windowMs: 15 * 60 * 1000,
+    max: 100,
     standardHeaders: true,
     legacyHeaders: false,
   })
@@ -68,7 +62,6 @@ app.use(express.urlencoded({ extended: true }));
 // ====================
 app.use("/api/contact", contactRoutes);
 
-// Health check route
 app.get("/api/health", (req, res) => {
   res.json({ status: "OK", timestamp: new Date().toISOString() });
 });
@@ -85,7 +78,7 @@ app.use((err, req, res, next) => {
 });
 
 // ====================
-// Fallback 404
+// 404 Fallback
 // ====================
 app.use("*", (req, res) => {
   res.status(404).json({ message: "Route not found" });
