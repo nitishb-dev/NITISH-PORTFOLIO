@@ -1,7 +1,7 @@
 import express from "express";
 import { createClient } from "@supabase/supabase-js";
 import Joi from "joi";
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 
 const router = express.Router();
 
@@ -30,10 +30,18 @@ const contactSchema = Joi.object({
 });
 
 // ====================
-// Resend Setup
+// Nodemailer Setup
 // ====================
-const resend =
-  process.env.RESEND_API_KEY && new Resend(process.env.RESEND_API_KEY);
+const transporter =
+  process.env.NOTIFY_EMAIL && process.env.NOTIFY_EMAIL_PASS
+    ? nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.NOTIFY_EMAIL,       // your Gmail
+          pass: process.env.NOTIFY_EMAIL_PASS,  // App Password
+        },
+      })
+    : null;
 
 // ====================
 // POST Contact Form
@@ -76,13 +84,13 @@ router.post("/", async (req, res) => {
     });
 
     // ====================
-    // Background Emails
+    // Send Emails in Background
     // ====================
-    if (resend) {
+    if (transporter) {
       (async () => {
         try {
           // 1️⃣ Notification email to portfolio owner
-          await resend.emails.send({
+          await transporter.sendMail({
             from: `"${name} (via Portfolio)" <${process.env.NOTIFY_EMAIL}>`,
             to: process.env.NOTIFY_EMAIL,
             replyTo: email,
@@ -110,8 +118,8 @@ router.post("/", async (req, res) => {
           });
 
           // 2️⃣ Thank-you email to visitor
-          await resend.emails.send({
-            from: `"Nitish B"  <${process.env.NOTIFY_EMAIL}>`,
+          await transporter.sendMail({
+            from: `"Nitish B" <${process.env.NOTIFY_EMAIL}>`,
             to: email,
             subject: "Thank you for your message!",
             text: `Hi ${name},\n\nThanks for reaching out! I've received your message and will get back to you as soon as possible.\n\nBest regards,\nNitish B`,
