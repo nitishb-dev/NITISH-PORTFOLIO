@@ -10,16 +10,8 @@ const app = express();
 // Security headers
 app.use(helmet({ crossOriginResourcePolicy: false }));
 
-// Dynamic CORS configuration
-const productionOrigins = process.env.CORS_ORIGIN
-  ? process.env.CORS_ORIGIN.split(",").map((origin) => origin.trim())
-  : [];
-
-// Always allow localhost for development, and add production origins.
-// Using a Set avoids duplicates.
-const allowedOrigins = [
-  ...new Set(["http://localhost:5173", ...productionOrigins]),
-];
+// Allowed origins (localhost + your domain)
+const allowedOrigins = ["http://localhost:5173", "https://nitishb.me"];
 
 if (process.env.NODE_ENV !== "development") {
   console.log("Allowed CORS Origins:", allowedOrigins);
@@ -27,9 +19,8 @@ if (process.env.NODE_ENV !== "development") {
 
 const corsOptions = {
   origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    // and all origins from the allowed list.
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+    // Allow requests with no origin (like curl) and all origins in allowedOrigins
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
@@ -38,7 +29,7 @@ const corsOptions = {
   credentials: true,
 };
 
-// Use CORS for all routes and handle preflight OPTIONS requests
+// Use CORS for all routes
 app.use(cors(corsOptions));
 
 // Rate limiter
@@ -79,6 +70,7 @@ app.use("*", (req, res) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Portfolio Backend running on port ${PORT}`);
+  console.log(`🌐 Accessible origins: ${allowedOrigins.join(", ")}`);
 });
 
 export default app;
