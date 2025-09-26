@@ -76,6 +76,13 @@ router.post("/", async (req, res) => {
       });
     }
 
+    // ✅ Respond to the user immediately after successful DB insert.
+    res.status(201).json({
+      message: "Contact form submitted successfully",
+      contact: data[0],
+    });
+
+    // 📧 Send emails in the background after the response has been sent.
     if (transporter) {
       // 1️⃣ Notification email to portfolio owner
       await transporter.sendMail({
@@ -126,11 +133,6 @@ router.post("/", async (req, res) => {
     `,
       });
     }
-
-    res.status(201).json({
-      message: "Contact form submitted successfully",
-      contact: data[0],
-    });
   } catch (err) {
     console.error("Unhandled contact form error:", err);
     res.status(500).json({ message: "Internal server error" });
