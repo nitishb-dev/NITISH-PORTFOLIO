@@ -10,8 +10,14 @@ const app = express();
 // Security headers
 app.use(helmet({ crossOriginResourcePolicy: false }));
 
-// Allowed origins (localhost + your domain)
-const allowedOrigins = ["http://localhost:5173", "https://nitishb.me"];
+// Dynamic CORS configuration from environment variables
+const productionOrigins = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(",").map((origin) => origin.trim())
+  : [];
+
+const allowedOrigins = [
+  ...new Set(["http://localhost:5173", ...productionOrigins]),
+];
 
 if (process.env.NODE_ENV !== "development") {
   console.log("Allowed CORS Origins:", allowedOrigins);
@@ -19,7 +25,7 @@ if (process.env.NODE_ENV !== "development") {
 
 const corsOptions = {
   origin: (origin, callback) => {
-    // Allow requests with no origin (like curl) and all origins in allowedOrigins
+    // Allow requests with no origin (like curl) and all origins from the list
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
