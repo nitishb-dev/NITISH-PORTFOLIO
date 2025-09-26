@@ -25,24 +25,21 @@ if (process.env.NODE_ENV !== "development") {
   console.log("Allowed CORS Origins:", allowedOrigins);
 }
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps or curl requests)
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-    methods: ["GET", "POST", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    // and all origins from the allowed list.
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+};
 
-// Handle OPTIONS requests globally (important!)
-app.options("*", cors());
+// Use CORS for all routes and handle preflight OPTIONS requests
+app.use(cors(corsOptions));
 
 // Rate limiter
 app.use(
