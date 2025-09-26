@@ -15,14 +15,9 @@ if (SUPABASE_URL && SUPABASE_KEY) {
   console.log("✅ Supabase client initialized.");
 } else {
   console.error(
-    "❌ Supabase environment variables (SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY) are missing. Database operations will fail."
+    "❌ Supabase environment variables missing. Database operations will fail."
   );
 }
-
-// Health/test route
-router.get("/", (req, res) => {
-  res.json({ message: "Contact API is working" });
-});
 
 // Validation schema
 const contactSchema = Joi.object({
@@ -39,7 +34,7 @@ const transporter =
         service: "gmail",
         auth: {
           user: process.env.NOTIFY_EMAIL,
-          pass: process.env.NOTIFY_EMAIL_PASS,
+          pass: process.env.NOTIFY_EMAIL_PASS, // App Password recommended
         },
       })
     : null;
@@ -76,16 +71,16 @@ router.post("/", async (req, res) => {
       });
     }
 
-    // ✅ Respond to the user immediately after successful DB insert.
+    // Respond immediately
     res.status(201).json({
       message: "Contact form submitted successfully",
       contact: data[0],
     });
 
-    // 📧 Send emails in the background after the response has been sent.
+    // Send emails in background (non-blocking)
     if (transporter) {
-      // 1️⃣ Notification email to portfolio owner
-      await transporter.sendMail({
+      // Notification to owner
+      transporter.sendMail({
         from: `"${name} (via Portfolio)" <${process.env.NOTIFY_EMAIL}>`,
         to: process.env.NOTIFY_EMAIL,
         replyTo: email,
@@ -109,11 +104,11 @@ router.post("/", async (req, res) => {
           </div>
         </div>
       </div>
-    `,
-      });
+      `,
+      }).catch(err => console.error("Email to owner failed:", err));
 
-      // 2️⃣ Thank-you email to visitor
-      await transporter.sendMail({
+      // Thank-you email to visitor
+      transporter.sendMail({
         from: `"Nitish B - Portfolio Contact" <${process.env.NOTIFY_EMAIL}>`,
         to: email,
         subject: "Thanks for contacting me",
@@ -130,8 +125,8 @@ router.post("/", async (req, res) => {
           </div>
         </div>
       </div>
-    `,
-      });
+      `,
+      }).catch(err => console.error("Thank-you email failed:", err));
     }
   } catch (err) {
     console.error("Unhandled contact form error:", err);
