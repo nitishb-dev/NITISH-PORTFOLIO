@@ -9,12 +9,17 @@ React • Tailwind • Node.js • Express • Supabase
 
 ## 📱 Features
 
-- Responsive design
-- Projects & skills showcase
-- Contact form with DB storage
-- Modern UI & smooth animations
+- Fully responsive design for all devices
+- Projects & skills showcase with interactive UI
+- Contact form with backend storage in Supabase
+- Smooth animations & modern UI/UX
+- Optimized for performance & accessibility
 
 ## ☁️ Deployment
 
 - **Frontend**: Deployed on [Vercel](https://vercel.com/)  
 - **Backend**: Deployed on [Render](https://render.com/)
+
+## 📬 Contact
+
+Feel free to reach out via the contact form on the portfolio or directly at your email.
